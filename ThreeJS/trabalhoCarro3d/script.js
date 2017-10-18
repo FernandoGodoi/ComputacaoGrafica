@@ -52,9 +52,9 @@ var geometriaLinha = caminho.createPointsGeometry(1000);
 var linha = new THREE.Line(geometriaLinha, materialLinha);
 cena.add(linha);
 
-// var i = 500;
-// carro.rotateZ(Math.atan2((caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x),
-// (caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y))/Math.PI);
+// var i = 750;
+// carro.rotateZ(Math.atan2((caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y),
+// (caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x)));
 // carro.position.x = caminho.getPoints(0)[i].x;
 // carro.position.y = caminho.getPoints(0)[i].y;
 
@@ -64,19 +64,27 @@ camera.position.z = 4;
 var i = 3;
 
 function desenhar() {    
+    // carro.position.x = caminho.getPoints(0)[i].x;
+    // carro.position.y = caminho.getPoints(0)[i].y;
+    // carro.rotateZ((Math.atan2(caminho.getPoints(0)[i+1].y-caminho.getPoints(0)[i].y),
+    // (caminho.getPoints(0)[i+1].x-caminho.getPoints(0)[i].x))+
+    //                (Math.atan2(caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y),
+    // (caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x)));
+
+
+
+    // console.log(i);
+    // i++;
+
+    var geometriaCarro = new THREE.BoxGeometry(0.5, 0.3, 0.2);
+    var materialCarro = new THREE.MeshLambertMaterial({ color: 0x59fd8b });
+    var carro = new THREE.Mesh(geometriaCarro, materialCarro);
+    cena.add(carro); //Adicionamos o Carro à cena
+    carro.rotateZ(Math.atan2((caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y),
+    (caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x)));
     carro.position.x = caminho.getPoints(0)[i].x;
     carro.position.y = caminho.getPoints(0)[i].y;
-    carro.rotateZ(-(Math.atan2(caminho.getPoints(0)[i+1].y-caminho.getPoints(0)[i].y),
-    (caminho.getPoints(0)[i+1].x-caminho.getPoints(0)[i].x))-
-                   (Math.atan2(caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y),
-    (caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x)));
-
-
-
-    console.log(i);
     i++;
-
-
 
     render.render(cena, camera);
     requestAnimationFrame(desenhar);
