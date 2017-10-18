@@ -56,7 +56,7 @@ for (var s = 0; s <= 1; s += 0.01) {
 }
 */
 
-
+/*
 //Atividade 4 Curva de Bezier
 var curva = new THREE.CubicBezierCurve3(
     new THREE.Vector3(-1, 0, 0),
@@ -77,8 +77,8 @@ var geometriaLinha2 = new THREE.Geometry();
 geometriaLinha2.vertices = curva2.getPoints(4); //Resolucao
 var linha2 = new THREE.Line(geometriaLinha2, materialLinha);
 cena.add(linha2);
+*/
 
-/*
 //Atividade 5 Spline
 
 var curva = new THREE.SplineCurve([
@@ -101,13 +101,13 @@ for (let p of curva.points) {
     var ponto = new THREE.Points(geometriaPonto, materialPonto);
     cena.add(ponto);
 }
-*/
+
 
 var linha = new THREE.Line(geometriaLinha, materialLinha);
 cena.add(linha);
 camera.position.z = 5;
 var cima = false;
-
+/*
 function iteracao() {
 
     if (curva.v1.y > 3 || curva.v1.y < 0) {
@@ -125,6 +125,15 @@ function iteracao() {
     }
     geometriaLinha.vertices = curva.getPoints(500); //Resolucao
     var linha = new THREE.Line(geometriaLinha, materialLinha);
+    cena.add(linha);
+    linha.geometry.verticesNeedUpdate = true;
+}
+*/
+function iteracao() {
+    curva.points[0].y += 0.0001;
+    caminho = new THREE.Path(curva.getPoints(50));
+    geometriaLinha = caminho.createPointsGeometry(50);
+    linha = new THREE.Line(geometriaLinha, materialLinha);
     cena.add(linha);
     linha.geometry.verticesNeedUpdate = true;
 }
