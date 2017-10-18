@@ -52,16 +52,32 @@ var geometriaLinha = caminho.createPointsGeometry(1000);
 var linha = new THREE.Line(geometriaLinha, materialLinha);
 cena.add(linha);
 
+// var i = 500;
+// carro.rotateZ(Math.atan2((caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x),
+// (caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y))/Math.PI);
+// carro.position.x = caminho.getPoints(0)[i].x;
+// carro.position.y = caminho.getPoints(0)[i].y;
 
 
 //Camera
 camera.position.z = 4;
-var i = 0;
+var i = 3;
 
-function desenhar() {
+function desenhar() {    
     carro.position.x = caminho.getPoints(0)[i].x;
     carro.position.y = caminho.getPoints(0)[i].y;
+    carro.rotateZ(-(Math.atan2(caminho.getPoints(0)[i+1].y-caminho.getPoints(0)[i].y),
+    (caminho.getPoints(0)[i+1].x-caminho.getPoints(0)[i].x))-
+                   (Math.atan2(caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y),
+    (caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x)));
+
+
+
+    console.log(i);
     i++;
+
+
+
     render.render(cena, camera);
     requestAnimationFrame(desenhar);
 }
