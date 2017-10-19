@@ -17,6 +17,7 @@ cena.add(carro); //Adicionamos o Carro à cena
 
 
 
+
 //Luz
 var luzAmbiente = new THREE.AmbientLight(0x333333);
 cena.add(luzAmbiente);
@@ -61,9 +62,9 @@ cena.add(linha);
 
 //Camera
 camera.position.z = 4;
-var i = 3;
+var i = 0;
 
-function desenhar() {    
+function desenhar() {
     // carro.position.x = caminho.getPoints(0)[i].x;
     // carro.position.y = caminho.getPoints(0)[i].y;
     // carro.rotateZ((Math.atan2(caminho.getPoints(0)[i+1].y-caminho.getPoints(0)[i].y),
@@ -76,15 +77,20 @@ function desenhar() {
     // console.log(i);
     // i++;
 
-    var geometriaCarro = new THREE.BoxGeometry(0.5, 0.3, 0.2);
-    var materialCarro = new THREE.MeshLambertMaterial({ color: 0x59fd8b });
-    var carro = new THREE.Mesh(geometriaCarro, materialCarro);
-    cena.add(carro); //Adicionamos o Carro à cena
-    carro.rotateZ(Math.atan2((caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y),
-    (caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x)));
+
+
+    carro.rotation.z = (Math.atan2((caminho.getPoints(0)[i + 1].y - caminho.getPoints(0)[i].y),
+        (caminho.getPoints(0)[i + 1].x - caminho.getPoints(0)[i].x)));
+
+
+    console.log(i + "   angulo:" + (Math.atan2((caminho.getPoints(0)[i + 1].y - caminho.getPoints(0)[i].y),
+        (caminho.getPoints(0)[i + 1].x - caminho.getPoints(0)[i].x))));
     carro.position.x = caminho.getPoints(0)[i].x;
     carro.position.y = caminho.getPoints(0)[i].y;
     i++;
+    if (i == 1000) {
+        i = 0;
+    }
 
     render.render(cena, camera);
     requestAnimationFrame(desenhar);
