@@ -61,7 +61,9 @@ cena.add(linha);
 
 
 //Camera
-camera.position.z = 4;
+camera.position.z = 1 ;
+camera.position.y = -5;
+camera.rotateX(0.55*Math.PI);
 var i = 0;
 
 function desenhar() {
