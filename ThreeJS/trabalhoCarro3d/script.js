@@ -9,9 +9,13 @@ render.setSize(window.innerWidth, window.innerHeight);
 var canvas = render.domElement;
 document.body.appendChild(canvas);
 
+
+//https://books.google.com.br/books?id=Zw08CgAAQBAJ&pg=PA81&lpg=PA81&dq=adicionando+textura+a+um+THREE.Mesh&source=bl&ots=9JlQFBPx6V&sig=DGvSG7crXJEXW1nkxfMQAgDoG-s&hl=pt-BR&sa=X&ved=0ahUKEwiOlomz6f3WAhUGQpAKHfFvAW8Q6AEIYDAN#v=onepage&q=adicionando%20textura%20a%20um%20THREE.Mesh&f=false
 //Carro
 var geometriaCarro = new THREE.BoxGeometry(0.5, 0.3, 0.2);
-var materialCarro = new THREE.MeshLambertMaterial({ color: 0x59fd8b });
+var textura = THREE.ImageUtils.loadTexture('car.png');
+var materialCarro = new THREE.MeshLambertMaterial({ map:textura/*color: 0x59fd8b*/ });
+
 var carro = new THREE.Mesh(geometriaCarro, materialCarro);
 cena.add(carro); //Adicionamos o Carro à cena
 
