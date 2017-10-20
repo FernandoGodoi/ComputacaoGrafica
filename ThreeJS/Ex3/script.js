@@ -19,9 +19,9 @@ cena.add(luzPonto);
 
 function gerarCilindroLinhas(raio = 1, altura = 2, pRaio = 8) {
     var geometria = new THREE.Geometry();
-    for (var a = 0; a <= Math.PI * 2; a += (math.PI * 2) / pRaio) {
+    for (var a = 0; a <= Math.PI * 2; a += (Math.PI * 2) / pRaio) {
         var x = Math.sin(a) * raio;
-        var z = Math.con(a) * raio;
+        var z = Math.cos(a) * raio;
         var v = new THREE.Vector3(x, -altura / 2, z);
         geometria.vertices.push(v);
         v = new THREE.Vector3(x, altura / 2, z);
@@ -30,7 +30,10 @@ function gerarCilindroLinhas(raio = 1, altura = 2, pRaio = 8) {
     return geometria;
 }
 
+var forma = new THREE.LineSegments(gerarCilindroLinhas(1, 2, 360), new THREE.MeshPhongMaterial({ color: 0xffffff }));
+cena.add(forma);
 
+camera.position.z = 5;
 
 function desenhar() {
     render.render(cena, camera);
