@@ -13,14 +13,18 @@ document.body.appendChild(canvas);
 //https://books.google.com.br/books?id=Zw08CgAAQBAJ&pg=PA81&lpg=PA81&dq=adicionando+textura+a+um+THREE.Mesh&source=bl&ots=9JlQFBPx6V&sig=DGvSG7crXJEXW1nkxfMQAgDoG-s&hl=pt-BR&sa=X&ved=0ahUKEwiOlomz6f3WAhUGQpAKHfFvAW8Q6AEIYDAN#v=onepage&q=adicionando%20textura%20a%20um%20THREE.Mesh&f=false
 //Carro
 var geometriaCarro = new THREE.BoxGeometry(0.5, 0.3, 0.2);
-var textura = THREE.ImageUtils.loadTexture('car.png');
-var materialCarro = new THREE.MeshLambertMaterial({ map:textura/*color: 0x59fd8b*/ });
+var textura = THREE.ImageUtils.loadTexture('car.jpg');
+var materialCarro = new THREE.MeshLambertMaterial({ color: 0x883ee });
 
 var carro = new THREE.Mesh(geometriaCarro, materialCarro);
 cena.add(carro); //Adicionamos o Carro à cena
 
-
-
+//Chao
+var geometriaChao = new THREE.BoxGeometry(100, 100, 0.01);
+var materialChao = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+var chao = new THREE.Mesh(geometriaChao, materialChao);
+chao.position.z = -0.5;
+cena.add(chao);
 
 //Luz
 var luzAmbiente = new THREE.AmbientLight(0x333333);
@@ -65,32 +69,14 @@ cena.add(linha);
 
 
 //Camera
-camera.position.z = 1 ;
+camera.position.z = 1;
 camera.position.y = -5;
-camera.rotateX(0.55*Math.PI);
+camera.rotateX(0.55 * Math.PI);
 var i = 0;
 
 function desenhar() {
-    // carro.position.x = caminho.getPoints(0)[i].x;
-    // carro.position.y = caminho.getPoints(0)[i].y;
-    // carro.rotateZ((Math.atan2(caminho.getPoints(0)[i+1].y-caminho.getPoints(0)[i].y),
-    // (caminho.getPoints(0)[i+1].x-caminho.getPoints(0)[i].x))+
-    //                (Math.atan2(caminho.getPoints(0)[i].y-caminho.getPoints(0)[i-1].y),
-    // (caminho.getPoints(0)[i].x-caminho.getPoints(0)[i-1].x)));
-
-
-
-    // console.log(i);
-    // i++;
-
-
-
     carro.rotation.z = (Math.atan2((caminho.getPoints(0)[i + 1].y - caminho.getPoints(0)[i].y),
         (caminho.getPoints(0)[i + 1].x - caminho.getPoints(0)[i].x)));
-
-
-    console.log(i + "   angulo:" + (Math.atan2((caminho.getPoints(0)[i + 1].y - caminho.getPoints(0)[i].y),
-        (caminho.getPoints(0)[i + 1].x - caminho.getPoints(0)[i].x))));
     carro.position.x = caminho.getPoints(0)[i].x;
     carro.position.y = caminho.getPoints(0)[i].y;
     i++;
