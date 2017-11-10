@@ -22,36 +22,58 @@ chao.position.y = -1;
 cena.add(chao);
 
 //Casa
-function gerarCasa() {
+function gerarCasa(x, z) {
     var geo = new THREE.Geometry();
-    geo.vertices.push(new THREE.Vector3(-2.5, -1, 98));
-    geo.vertices.push(new THREE.Vector3(-0.5, -1, 98));
-    geo.vertices.push(new THREE.Vector3(-2.5, 4, 98));
-    geo.vertices.push(new THREE.Vector3(-0.5, 4, 98));
-    geo.vertices.push(new THREE.Vector3(-0.5, 1.5, 98));
-    geo.vertices.push(new THREE.Vector3(0.5, 1.5, 98));
-    geo.vertices.push(new THREE.Vector3(0.5, 4, 98)); //6
-    geo.vertices.push(new THREE.Vector3(0.5, -1, 98));
-    geo.vertices.push(new THREE.Vector3(2.5, -1, 98));
-    geo.vertices.push(new THREE.Vector3(2.5, 4, 98));
-
-
-
+    //Frente
+    geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, 5 + z));
+    geo.vertices.push(new THREE.Vector3(-0.5 + x, -1, 5 + z));
+    geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, 5 + z));
+    geo.vertices.push(new THREE.Vector3(-0.5 + x, 4, 5 + z));
+    geo.vertices.push(new THREE.Vector3(-0.5 + x, 1.5, 5 + z));
+    geo.vertices.push(new THREE.Vector3(0.5 + x, 1.5, 5 + z));
+    geo.vertices.push(new THREE.Vector3(0.5 + x, 4, 5 + z)); //6
+    geo.vertices.push(new THREE.Vector3(0.5 + x, -1, 5 + z));
+    geo.vertices.push(new THREE.Vector3(2.5 + x, -1, 5 + z));
+    geo.vertices.push(new THREE.Vector3(2.5 + x, 4, 5 + z));
     geo.faces.push(new THREE.Face3(0, 1, 2));
-    geo.faces.push(new THREE.Face3(1, 2, 3));
+    geo.faces.push(new THREE.Face3(1, 3, 2));
     geo.faces.push(new THREE.Face3(4, 5, 3));
     geo.faces.push(new THREE.Face3(5, 6, 3));
     geo.faces.push(new THREE.Face3(7, 8, 6));
     geo.faces.push(new THREE.Face3(8, 9, 6));
+
+    //Fundos
+    geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, -5 + z));
+    geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, -5 + z));
+    geo.vertices.push(new THREE.Vector3(2.5 + x, -1, -5 + z));
+    geo.vertices.push(new THREE.Vector3(2.5 + x, 4, -5 + z));
+    geo.faces.push(new THREE.Face3(11, 12, 10));
+    geo.faces.push(new THREE.Face3(13, 12, 11));
+
+    //laterais
+    geo.faces.push(new THREE.Face3(10, 0, 11));
+    geo.faces.push(new THREE.Face3(11, 0, 2));
+    geo.faces.push(new THREE.Face3(8, 12, 9));
+    geo.faces.push(new THREE.Face3(9, 12, 13));
+
+
+
     geo.computeFaceNormals();
     return geo;
 }
-
-var forma = new THREE.Mesh(gerarCasa(1, 1), new THREE.MeshPhongMaterial({ color: 0xeeee00 }));
-//forma.material.wireframe = true;
-forma.material.side = THREE.DoubleSide;
+var textura = THREE.ImageUtils.loadTexture('textura_tijolos.jpg');
+var forma = new THREE.Mesh(gerarCasa(0, 93), new THREE.MeshLambertMaterial({ color: 0xeeee00, map: textura }));
 cena.add(forma);
 
+
+var forma = new THREE.Mesh(gerarCasa(6, 93), new THREE.MeshPhongMaterial({ color: 0xeeee00 }));
+cena.add(forma);
+
+var forma = new THREE.Mesh(gerarCasa(-20, 30), new THREE.MeshPhongMaterial({ color: 0xeeee00 }));
+cena.add(forma);
+
+//forma.material.wireframe = true;
+forma.material.side = THREE.DoubleSide;
 
 camera.position.z = 120;
 
@@ -60,3 +82,18 @@ function desenhar() {
     requestAnimationFrame(desenhar);
 }
 requestAnimationFrame(desenhar);
+
+
+var xi;
+var yi;
+
+canvas.addEventListener("mousedown", function(e) {
+    xi = e.offsetX;
+    yi = e.offsetY;
+}, false);
+canvas.addEventListener("mousemove", function(e) {
+    if (e.buttons > 0) {
+        camera.position.x = 8 * (xi - e.offsetX) / canvas.width;
+        camera.position.y = 8 * (e.offsetY - yi) / canvas.height;
+    }
+}, false);
