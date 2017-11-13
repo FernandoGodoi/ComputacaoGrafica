@@ -11,47 +11,98 @@ render.shadowMapEnabled = true;
 var canvas = render.domElement;
 document.body.appendChild(canvas);
 //Que tal uma luz ambiente com média intensidade?
-var luzAmbiente = new THREE.AmbientLight(0x111111);
+var luzAmbiente = new THREE.AmbientLight(0x333333);
 cena.add(luzAmbiente);
 //Loader
 var loader = new THREE.TextureLoader();
 
 //Luz Ponto
-var light = new THREE.PointLight( 0xFFFFFF );
-light.position.set( 20, 40, -15 );
+var light = new THREE.PointLight(0xFFFFFF);
+light.position.set(20, 40, -15);
 light.castShadow = true;
 light.shadowDarkness = 0.5;
 light.shadowCameraVisible = true;
-light.shadowCameraRight     =  5;
-light.shadowCameraLeft     = -5;
-light.shadowCameraTop      =  5;
-light.shadowCameraBottom   = -5;
-cena.add( light );
+light.shadowCameraRight = 5;
+light.shadowCameraLeft = -5;
+light.shadowCameraTop = 5;
+light.shadowCameraBottom = -5;
+cena.add(light);
 
 
-var chaoGeometry = new THREE.BoxGeometry(200,1, 200)
-var chaoMaterial = new THREE.MeshLambertMaterial({ map: loader.load( 'grass.png' ) });
+var chaoGeometry = new THREE.BoxGeometry(200, 1, 200)
+var chaoMaterial = new THREE.MeshLambertMaterial({ map: loader.load('Rua2.png') });
 chaoMaterial.map.wrapS = chaoMaterial.map.wrapT = THREE.RepeatWrapping;
-chaoMaterial.map.repeat.set( 1, 1 );
+chaoMaterial.map.repeat.set(2, 2);
 var chao = new THREE.Mesh(chaoGeometry, chaoMaterial);
 chao.position.y = -1;
 chao.receiveShadow = true;
 cena.add(chao);
 
 //Casa
-function gerarCasa(x, z) {
+function gerarCasa(x, z, material, lado) {
     var geo = new THREE.Geometry();
-    //Frente
-    geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, 5 + z));
-    geo.vertices.push(new THREE.Vector3(-0.5 + x, -1, 5 + z));
-    geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, 5 + z));
-    geo.vertices.push(new THREE.Vector3(-0.5 + x, 4, 5 + z));
-    geo.vertices.push(new THREE.Vector3(-0.5 + x, 1.5, 5 + z));
-    geo.vertices.push(new THREE.Vector3(0.5 + x, 1.5, 5 + z));
-    geo.vertices.push(new THREE.Vector3(0.5 + x, 4, 5 + z)); //6
-    geo.vertices.push(new THREE.Vector3(0.5 + x, -1, 5 + z));
-    geo.vertices.push(new THREE.Vector3(2.5 + x, -1, 5 + z));
-    geo.vertices.push(new THREE.Vector3(2.5 + x, 4, 5 + z));
+
+
+
+    if (lado == 1) {
+        //Frente
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, 5 + z));
+        geo.vertices.push(new THREE.Vector3(-0.5 + x, -1, 5 + z));
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, 5 + z));
+        geo.vertices.push(new THREE.Vector3(-0.5 + x, 4, 5 + z));
+        geo.vertices.push(new THREE.Vector3(-0.5 + x, 1.5, 5 + z));
+        geo.vertices.push(new THREE.Vector3(0.5 + x, 1.5, 5 + z));
+        geo.vertices.push(new THREE.Vector3(0.5 + x, 4, 5 + z)); //6
+        geo.vertices.push(new THREE.Vector3(0.5 + x, -1, 5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, -1, 5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, 4, 5 + z));
+
+
+        //Fundos
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, -5 + z));
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, -5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, -1, -5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, 4, -5 + z));
+
+        geo.vertices.push(new THREE.Vector3(0 + x, 5, 4.5 + z));
+        geo.vertices.push(new THREE.Vector3(0 + x, 5, -4.5 + z));
+        geo.faces.push(new THREE.Face3(14, 2, 9));
+        geo.faces.push(new THREE.Face3(15, 13, 11));
+        geo.faces.push(new THREE.Face3(2, 11, 14));
+        geo.faces.push(new THREE.Face3(14, 11, 15));
+        geo.faces.push(new THREE.Face3(9, 14, 13));
+        geo.faces.push(new THREE.Face3(13, 14, 15));
+    } else {
+        //Frente
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, -5 + z));
+        geo.vertices.push(new THREE.Vector3(-0.5 + x, -1, -5 + z));
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, -5 + z));
+        geo.vertices.push(new THREE.Vector3(-0.5 + x, 4, -5 + z));
+        geo.vertices.push(new THREE.Vector3(-0.5 + x, 1.5, -5 + z));
+        geo.vertices.push(new THREE.Vector3(0.5 + x, 1.5, -5 + z));
+        geo.vertices.push(new THREE.Vector3(0.5 + x, 4, -5 + z)); //6
+        geo.vertices.push(new THREE.Vector3(0.5 + x, -1, -5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, -1, -5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, 4, -5 + z));
+
+
+        //Fundos
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, 5 + z));
+        geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, 5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, -1, 5 + z));
+        geo.vertices.push(new THREE.Vector3(2.5 + x, 4, 5 + z));
+
+        geo.vertices.push(new THREE.Vector3(0 + x, 5, -4.5 + z));
+        geo.vertices.push(new THREE.Vector3(0 + x, 5, 4.5 + z));
+        geo.faces.push(new THREE.Face3(14, 2, 9));
+        geo.faces.push(new THREE.Face3(15, 13, 11));
+        geo.faces.push(new THREE.Face3(2, 11, 14));
+        geo.faces.push(new THREE.Face3(14, 11, 15));
+        geo.faces.push(new THREE.Face3(9, 14, 13));
+        geo.faces.push(new THREE.Face3(13, 14, 15));
+
+
+    }
     geo.faces.push(new THREE.Face3(0, 1, 2));
     geo.faces.push(new THREE.Face3(1, 3, 2));
     geo.faces.push(new THREE.Face3(4, 5, 3));
@@ -59,13 +110,10 @@ function gerarCasa(x, z) {
     geo.faces.push(new THREE.Face3(7, 8, 6));
     geo.faces.push(new THREE.Face3(8, 9, 6));
 
-    //Fundos
-    geo.vertices.push(new THREE.Vector3(-2.5 + x, -1, -5 + z));
-    geo.vertices.push(new THREE.Vector3(-2.5 + x, 4, -5 + z));
-    geo.vertices.push(new THREE.Vector3(2.5 + x, -1, -5 + z));
-    geo.vertices.push(new THREE.Vector3(2.5 + x, 4, -5 + z));
     geo.faces.push(new THREE.Face3(11, 12, 10));
     geo.faces.push(new THREE.Face3(13, 12, 11));
+
+
 
     //laterais
     geo.faces.push(new THREE.Face3(10, 0, 11));
@@ -73,46 +121,64 @@ function gerarCasa(x, z) {
     geo.faces.push(new THREE.Face3(8, 12, 9));
     geo.faces.push(new THREE.Face3(9, 12, 13));
 
+    //Telhado
+
+
+
 
 
     geo.computeFaceNormals();
-    return geo;
+    var casa = new THREE.Mesh(geo, material)
+    casa.material.side = THREE.DoubleSide;
+    return casa;
 }
 
-
+//https://www.pinterest.co.kr/geovanimuraro/texturas-trabalho-up/
 //Material
-var materialTijolo = new THREE.MeshLambertMaterial({ map: loader.load( 'textura_tijolos.jpg' ) })
+var materialTijolo = new THREE.MeshLambertMaterial({ map: loader.load('textura_tijolos.jpg') })
+var materialPredio = new THREE.MeshLambertMaterial({ map: loader.load('predio.jpg') })
+var materialPredio2 = new THREE.MeshLambertMaterial({ map: loader.load('predio2.jpg') })
+var materialPredio3 = new THREE.MeshLambertMaterial({ map: loader.load('predio3.jpg') })
+var materialPredio4 = new THREE.MeshLambertMaterial({ map: loader.load('predioVidros.jpg') })
+materialPredio4.map.wrapS = materialPredio4.map.wrapT = THREE.RepeatWrapping;
+materialPredio4.map.repeat.set(1, 4);
+
+
+var materialCasa = new THREE.MeshPhongMaterial({ color: 0x333333 });
 
 
 
-//adiciona casa
-var forma = new THREE.Mesh(gerarCasa(0, 93), materialTijolo);
-cena.add(forma);
-forma.material.side = THREE.DoubleSide;
 
 
-//adiciona box
-var boxGeometria = new THREE.BoxGeometry(5,10,10);
-var box = new THREE.Mesh(boxGeometria,materialTijolo);
-box.position.x = -10;
-box.position.y = 4;
-box.position.z = 90;
-box.castShadow = true;
-box.receiveShadow = false;
-cena.add(box);
 
-var forma = new THREE.Mesh(gerarCasa(6, 93), new THREE.MeshPhongMaterial({ color: 0xeeee00 }));
-forma.receiveShadow = false;
-forma.castShadow = true;
-cena.add(forma);
+//adiciona Predio
+function gerarPredio(x, z, material, altura) {
+    var boxGeometria = new THREE.BoxGeometry(5, altura, 10);
+    var box = new THREE.Mesh(boxGeometria, material);
+    box.position.x = x;
+    box.position.y = altura / 2 - 1;
+    box.position.z = z;
+    box.castShadow = true;
+    box.receiveShadow = false;
+    return box;
+}
 
-var forma = new THREE.Mesh(gerarCasa(-20, 30), new THREE.MeshPhongMaterial({ color: 0xeeee00 }));
-cena.add(forma);
+// Add
+//Predios
+cena.add(gerarPredio(10, 65, materialPredio, 10));
+cena.add(gerarPredio(50, 65, materialPredio, 10));
+cena.add(gerarPredio(-10, 65, materialPredio2, 10));
+cena.add(gerarPredio(0, 65, materialPredio3, 10));
+cena.add(gerarPredio(-20, 65, materialPredio4, 30));
+//Casas
+cena.add(gerarCasa(30, 65, materialCasa, 0));
+cena.add(gerarCasa(30, 38, materialCasa, 1));
+
 
 //forma.material.wireframe = true;
-forma.material.side = THREE.DoubleSide;
 
-camera.position.z = 120;
+
+camera.position.z = 50;
 
 function desenhar() {
     render.render(cena, camera);
