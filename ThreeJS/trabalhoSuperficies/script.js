@@ -1,6 +1,7 @@
 "use strict"
 // Objeto cena é quem gerencia tudo que deve existir em uma cena
 var cena = new THREE.Scene();
+var ang = 0;
 // Câmera é uma configuração sobre como e de que posição iremos observar a cena
 var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
 //renderizador utilizará a cena e a câera para exibir a imagem
@@ -179,10 +180,12 @@ cena.add(gerarCasa(30, 38, materialCasa, 1));
 
 
 camera.position.z = 50;
+camera.position.y = 1;
 
 function desenhar() {
     render.render(cena, camera);
     processaTecla();
+    camera.rotation.y = ang;
     requestAnimationFrame(desenhar);
 }
 requestAnimationFrame(desenhar);
@@ -191,16 +194,7 @@ requestAnimationFrame(desenhar);
 var xi;
 var yi;
 
-canvas.addEventListener("mousedown", function(e) {
-    xi = e.offsetX;
-    yi = e.offsetY;
-}, false);
-canvas.addEventListener("mousemove", function(e) {
-    if (e.buttons > 0) {
-        camera.position.x = 30 * (xi - e.offsetX) / canvas.width;
-        camera.position.y = 50 * (e.offsetY - yi) / canvas.height;
-    }
-}, false);
+
 
 var keys = [256];
 var i = 0;
@@ -217,8 +211,15 @@ document.onkeydown = function(evt) {
 }
 
 function processaTecla() {
-    if (keys[104]) { camera.position.z += 0.5; }
-    if (keys[101]) { camera.position.z -= 0.5; }
-    if (keys[102]) { camera.rotation.y -= 0.02 * Math.PI; }
-    if (keys[100]) { camera.rotation.y += 0.02 * Math.PI; }
+    if (keys[104]) { mover(-0.5, 0) }
+    if (keys[101]) { mover(+0.5, 0); }
+    if (keys[100]) { ang = ang + (0.02 * Math.PI); }
+    if (keys[102]) { ang = ang - (0.02 * Math.PI); }
+}
+
+function mover(v1, v2) {
+    camera.position.z += (Math.cos(ang) * v1) + (-Math.sin(ang) * v2);
+    camera.position.x += (Math.sin(ang) * v1) + (Math.cos(ang) * v2);
+
+
 }
